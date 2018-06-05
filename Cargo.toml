@@ -1,0 +1,6 @@
+[package]
+name = "rnginx"
+version = "0.1.0"
+authors = ["matrixbirds <yooobuntu@163.com>"]
+
+[dependencies]
