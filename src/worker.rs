@@ -1,4 +1,0 @@
-// RNGINX: WORKER
-
-struct Worker {
-}

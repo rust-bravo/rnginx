@@ -1,3 +1,8 @@
+extern crate rnginx;
+
+use rnginx::server;
+
 fn main() {
-    println!("Hello, world!");
+    let server = server::Server::new("baka", "127.0.0.1:23333");
+    server.boot();
 }
