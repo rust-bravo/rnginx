@@ -22,10 +22,11 @@ impl<'a> Server<'a> {
         println!("Starting name: {}", self.name);
         println!("bind address: {}", self.addr);
         let listener = self.bind();
+        let pool = ThreadPool::new(6);
         for stream in listener.incoming() {
             let stream = stream.unwrap();
-            thread::spawn(|| {
-                self.handle_connection(stream);
+            pool.execute(|| {
+                Server::handle_connection(stream);
             });
         }
     }
@@ -34,7 +35,7 @@ impl<'a> Server<'a> {
         TcpListener::bind(self.addr).unwrap()
     }
 
-    fn handle_connection(&self, mut stream: TcpStream) {
+    fn handle_connection(mut stream: TcpStream) {
         let mut buffer = [0; 512];
         stream.read(&mut buffer).unwrap();
         let get = b"GET / HTTP/1.1\r\n";
