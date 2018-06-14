@@ -22,12 +22,15 @@ impl<'a> Server<'a> {
         println!("Starting name: {}", self.name);
         println!("bind address: {}", self.addr);
         let listener = self.bind();
-        let pool = ThreadPool::new(6);
+        // let pool = ThreadPool::new(6);
         for stream in listener.incoming() {
             let stream = stream.unwrap();
-            pool.execute(|| {
+            thread::spawn(|| {
                 Server::handle_connection(stream);
             });
+            // pool.execute(|| {
+            //     Server::handle_connection(stream);
+            // });
         }
     }
 
