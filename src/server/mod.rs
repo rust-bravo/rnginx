@@ -3,7 +3,8 @@ use std::net::TcpListener;
 use std::net::TcpStream;
 use std::fs::File;
 use std::thread;
-use std::time::Duration;
+use std::error::Error;
+use std::result::*;
 
 pub struct Server<'a> {
     name: &'a str,
@@ -18,7 +19,7 @@ impl<'a> Server<'a> {
         }
     }
 
-    pub fn boot(&self) {
+    pub fn boot(&self) -> Result<(), Box<Error>> {
         println!("Starting name: {}", self.name);
         println!("bind address: {}", self.addr);
         let listener = self.bind();
@@ -32,6 +33,7 @@ impl<'a> Server<'a> {
             //     Server::handle_connection(stream);
             // });
         }
+        Ok(())
     }
 
     fn bind(&self) -> TcpListener {
